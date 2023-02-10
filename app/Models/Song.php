@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Song extends Model
 {
     use HasFactory;
-    protected $fillable = ["title","length","genre_id","album_id"];
+    protected $fillable = ["title","length","album_id","genre_id"];
 
     public function alubm(){
         return $this->belongsTo(Alubm::class);
