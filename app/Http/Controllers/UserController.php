@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -15,7 +18,6 @@ class UserController extends Controller
 
     public function show(User $user): JsonResponse
     {
-        $user->profile;
         return response()->json($user);
     }
 
@@ -63,21 +65,9 @@ class UserController extends Controller
         return response()->json(compact('token'));
     }
 
-    public function get_user(): JsonResponse
-    {
-        auth()->user()->profile;
-        auth()->user()->questionsDoc = auth()->user()->questions()->count();
-        return response()->json(auth()->user());
-    }
-
     public function alubms(): JsonResponse
     {
         return response()->json(auth()->user()->alubms);
-    }
-
-    public function genres(): JsonResponse
-    {
-        return response()->json(auth()->user()->genres);
     }
 
 }
