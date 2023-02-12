@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed songs
  */
-class Genre extends Model
+class Album extends Model
 {
     use HasFactory;
-    protected $fillable = ["type"];
+    protected $fillable = ["title", "description","release_date","user_id"];
     public function songs(){
         return $this->belongsToMany(Song::class);
     }

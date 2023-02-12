@@ -49,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
 
 
     public function alubms(){
-        return $this->hasMany(Alubm::class);
+        return $this->hasMany(Album::class);
     }
 
     public function getJWTIdentifier()

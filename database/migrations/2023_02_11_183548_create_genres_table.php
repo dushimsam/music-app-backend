@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Alubms extends Migration
+class CreateGenresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,11 @@ class Alubms extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('genres', function (Blueprint $table) {
+            $table->id();
+            $table->string("type")->unique();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ class Alubms extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('genres');
     }
 }
