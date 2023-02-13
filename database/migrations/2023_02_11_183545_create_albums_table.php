@@ -18,7 +18,6 @@ class CreateAlbumsTable extends Migration
             $table->string("title")->unique();
             $table->text("description");
             $table->date('release_date');
-            $table->unsignedBigInteger("user_id");
             $table->string("cover_image_url")->nullable();
             $table->boolean("status")->default(0);
             $table->timestamps();

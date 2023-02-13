@@ -6,18 +6,20 @@ use App\Models\Genre;
 use GrahamCampbell\ResultType\Error;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {
     public function all(): JsonResponse
     {
-        return response()->json(Genre::all());
+        $genreList = Genre::orderBy('created_at', 'desc')->paginate(2);;
+        return response()->json($genreList);
     }
 
     public function show(Genre $genre): JsonResponse
     {
-        $genre->songsDoc = $genre->songs()->count();
+//        $genre->songsDoc = $genre->songs()->count();
         return response()->json($genre);
     }
 
@@ -33,12 +35,15 @@ class GenreController extends Controller
             "type" => "required|string|min:3|max:100|unique:genres",
         ]);
 
-        if($valid->fails()) return response()->json($valid->errors());
+        if ($valid->fails()) return response()->json(['message' => Arr::first(Arr::flatten($valid->messages()->get('*')))], 400);
 
-        $genre = Genre::query()->create([
-            "type" => $request->json()->get("type")
-        ]);
-
-        return response()->json($genre);
+        try {
+            $genre = Genre::query()->create([
+                "type" => $request->json()->get("type")
+            ]);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return response()->json(['message' => $ex->getMessage()], 501);
+        }
+        return response()->json(['message' => 'Created Successfully', 'model' => $genre], 201);
     }
 }

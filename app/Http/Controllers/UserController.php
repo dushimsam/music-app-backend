@@ -48,18 +48,20 @@ class UserController extends Controller
     public function login(Request $request): JsonResponse
     {
         $valid = Validator::make($request->json()->all(),[
-            "email"=>["email","string"],
-            "username"=>["string","string"],
-            "password" => ["required","string","min:6"]
+            "login"=> ["string","string"],
+            "password" => ["required","string"]
         ]);
+        $input = $request->all();
 
         if($valid->fails())
             return response()->json($valid->errors(),400);
 
-        $credentials = $request->json()->all();
+        $fieldType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = array($fieldType => $input['login'], 'password' => $input['password']);
 
         if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid Email Or Password'], 404);
+            return response()->json(['message' => 'Invalid Credentials'], 404);
         }
 
         return response()->json(compact('token'));

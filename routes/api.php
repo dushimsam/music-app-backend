@@ -47,15 +47,16 @@ Route::group(["prefix" => "album"], function () {
 
 // ==== Genre Service
 
-Route::group(["prefix" => "genre", "middleware" => "jwt.verify"], function () {
+Route::group(["prefix" => "genre"], function () {
     Route::get("", [GenreController::class, "all"]);
+    Route::get("/{genre}",[GenreController::class, "show"]);
     Route::get("/songs", [GenreController::class, "songs"]);
     Route::post("", [GenreController::class, "create"]);
 });
 
 // ==== Songs Service
 
-Route::group(["prefix" => "songs", "middleware" => "jwt.verify"], function () {
+Route::group(["prefix" => "song"], function () {
     Route::get("", [SongController::class, "all"]);
     Route::get("/{song}", [SongController::class, "show"]);
     Route::post("", [SongController::class, "create"]);

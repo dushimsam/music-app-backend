@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Album extends Model
 {
     use HasFactory;
-    protected $fillable = ["title", "description","release_date","user_id"];
+    protected $fillable = ["title", "description","release_date"];
     public function songs(){
         return $this->belongsToMany(Song::class);
     }
