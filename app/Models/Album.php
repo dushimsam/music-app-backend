@@ -13,6 +13,6 @@ class Album extends Model
     use HasFactory;
     protected $fillable = ["title", "description","release_date"];
     public function songs(){
-        return $this->belongsToMany(Song::class);
+        return $this->hasMany(Song::class);
     }
 }

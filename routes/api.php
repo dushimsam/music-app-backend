@@ -41,6 +41,7 @@ Route::group(["prefix" => "album", "middleware" => "jwt.verify"], function () {
     Route::get("/{album}/songs", [AlbumController::class, "songs"]);
     Route::post("", [AlbumController::class, "create"]);
     Route::put("/{album}", [AlbumController::class, "update"]);
+    Route::delete("/{album}", [AlbumController::class, "destroy"]);
     Route::put("/{album}/upload", [AlbumController::class, "uploadImage"]);
 });
 
@@ -50,9 +51,10 @@ Route::group(["prefix" => "genre", "middleware" => "jwt.verify"], function () {
     Route::get("", [GenreController::class, "all"]);
     Route::get("/paginated", [GenreController::class, "allPaginated"]);
     Route::get("/{genre}",[GenreController::class, "show"]);
-    Route::get("/songs", [GenreController::class, "songs"]);
+    Route::get("/{genre}/songs", [GenreController::class, "songs"]);
     Route::post("", [GenreController::class, "create"]);
     Route::put("/{genre}", [GenreController::class, "update"]);
+    Route::delete("/{genre}",[GenreController::class, "destroy"]);
 });
 
 // ==== Songs Service

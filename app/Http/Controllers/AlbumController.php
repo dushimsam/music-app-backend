@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Song;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -43,7 +44,7 @@ class AlbumController extends Controller
 
     public function songs(Album $album): JsonResponse
     {
-        $songs = $album->songs;
+        $songs = Song::where('album_id', $album->id)->with('genre')->paginate(10);
         return response()->json($songs);
     }
 
@@ -77,7 +78,7 @@ class AlbumController extends Controller
         ]);
         if ($valid->fails()) return response()->json(['message' => Arr::first(Arr::flatten($valid->messages()->get('*')))], 400);
 
-        Album::where('id', $album->id)->update(array('cover_image_url' => $request->json()->get("cover_image_url"),'status' => 1));
+        Album::where('id', $album->id)->update(array('cover_image_url' => $request->json()->get("cover_image_url"), 'status' => 1));
 
         return response()->json(['message' => 'Image added Successfully', 'model' => Album::find($album->id)], 201);
     }
@@ -103,12 +104,18 @@ class AlbumController extends Controller
         return response()->json(['message' => 'Updated Successfully', 'model' => $album], 201);
     }
 
-    public function delete(Album $album): JsonResponse
+    public function destroy(Album $album): JsonResponse
     {
         try {
-            return response()->json($album->delete());
+
+            $album->songs()->delete();
+            $album->delete();
+
+            return response()->json([
+                'message' => 'Album and all associated songs have been deleted'
+            ]);
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(),501);
         }
     }
 

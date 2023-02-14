@@ -9,23 +9,23 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class SongController extends Controller
 {
     public function all(): JsonResponse
     {
-        return response()->json(Song::all()->orderBy("created_at", "desc"));
+        $albumList = Song::orderBy('created_at', 'desc')->get();
+        return response()->json($albumList);
     }
 
     public function allPaginated(): JsonResponse
     {
-        $songList = Song::select("*")
-            ->orderBy("created_at", "desc")
-            ->paginate(10);
-
-        return response()->json($songList);
+        $songs = Song::with('album', 'genre')->orderBy("created_at", "desc")->paginate(10);;
+        return response()->json($songs);
     }
+
 
     public function show(Song $song): JsonResponse
     {
@@ -46,6 +46,11 @@ class SongController extends Controller
         try {
             Album::query()->findOrFail($request->json()->get("album_id"));
             Genre::query()->findOrFail($request->json()->get("genre_id"));
+            $matchThese = ['album_id' => $request->json()->get("album_id"), 'title' => $request->json()->get("title"), 'genre_id' => $request->json()->get("genre_id")];
+            $duplicate = Song::where($matchThese)->get();
+            if (!$duplicate->isEmpty()) {
+                return response()->json(['message' => 'Song already exists'], 400);
+            }
 
             $song = Song::query()->create([
                 "title" => $request->json()->get("title"),
@@ -56,8 +61,13 @@ class SongController extends Controller
         } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json(['message' => $ex->getMessage()], 501);
         }
+        $album = Album::find($request->album_id);
+        $genre = Genre::find($request->genre_id);
 
-        return response()->json(['message' => 'Song created successfully', 'model' => $song]);
+        $song->album = $album;
+        $song->genre = $genre;
+
+        return response()->json(['message' => 'Song created successfully', 'model' => $song], 201);
     }
 
 
@@ -76,7 +86,7 @@ class SongController extends Controller
             Album::query()->findOrFail($request->json()->get("album_id"));
             Genre::query()->findOrFail($request->json()->get("genre_id"));
 
-            $song = $song->update([
+            $song->update([
                 "title" => $request->json()->get("title"),
                 "length" => $request->json()->get("length"),
                 "album_id" => $request->json()->get("album_id"),
@@ -86,13 +96,20 @@ class SongController extends Controller
             return response()->json(['message' => $ex->getMessage()], 501);
         }
 
-        return response()->json(['message' => 'Updated successfully', 'model' => $song], 204);
+        $album = Album::find($request->album_id);
+        $genre = Genre::find($request->genre_id);
+        $song = Song::find($song->id);
+        $song->album = $album;
+        $song->genre = $genre;
+
+        return response()->json(['message' => 'Updated successfully', 'model' => $song], 200);
     }
 
     public function delete(Song $song): JsonResponse
     {
         try {
-            return response()->json(['message' => 'Deleted Successfully', 'model' => $song->delete()], 204);
+            $song->delete();
+            return response()->json(['message' => ' Song Deleted Successfully'], 204);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 501);
         }
