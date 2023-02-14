@@ -16,18 +16,22 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 //use Illuminate\Support\Facades\Input;
 
-This is a laravel controller file, please make the corresponding tests
-
 class AlbumController extends Controller
 {
 
 
     public function all(): JsonResponse
     {
+        $albumList = Album::orderBy('created_at', 'desc')->get();
+        return response()->json($albumList);
+    }
+
+    public function allPaginated(): JsonResponse
+    {
         $albumList = Album::select("*")
             ->where("status", 1)
             ->orderBy("created_at", "desc")
-            ->paginate(2);
+            ->paginate(5);
 
         return response()->json($albumList);
     }
@@ -73,11 +77,9 @@ class AlbumController extends Controller
         ]);
         if ($valid->fails()) return response()->json(['message' => Arr::first(Arr::flatten($valid->messages()->get('*')))], 400);
 
-        $album::query()->update([
-            "cover_image_url" => $request->json()->get("cover_image_url"),
-            "status" => 1
-        ]);
-        return response()->json(['message' => 'Image added Successfully', 'model' => $album], 201);
+        Album::where('id', $album->id)->update(array('cover_image_url' => $request->json()->get("cover_image_url"),'status' => 1));
+
+        return response()->json(['message' => 'Image added Successfully', 'model' => Album::find($album->id)], 201);
     }
 
 

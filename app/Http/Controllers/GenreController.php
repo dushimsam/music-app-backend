@@ -14,7 +14,14 @@ class GenreController extends Controller
 {
     public function all(): JsonResponse
     {
-        $genreList = Genre::orderBy('created_at', 'desc')->paginate(2);
+        $genreList = Genre::orderBy('created_at', 'desc')->get();
+        return response()->json($genreList);
+    }
+
+
+    public function allPaginated(): JsonResponse
+    {
+        $genreList = Genre::orderBy('created_at', 'desc')->paginate(5);
         return response()->json($genreList);
     }
 

@@ -15,7 +15,16 @@ class SongController extends Controller
 {
     public function all(): JsonResponse
     {
-        return response()->json(Song::all());
+        return response()->json(Song::all()->orderBy("created_at", "desc"));
+    }
+
+    public function allPaginated(): JsonResponse
+    {
+        $songList = Song::select("*")
+            ->orderBy("created_at", "desc")
+            ->paginate(10);
+
+        return response()->json($songList);
     }
 
     public function show(Song $song): JsonResponse
