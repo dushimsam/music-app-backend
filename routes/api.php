@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(["prefix" => "auth"], function () {
     Route::post("/register", [UserController::class, "register"]);
     Route::post("/login", [UserController::class, "login"]);
+    Route::get("/self", [UserController::class, "self"])->middleware('auth:api');;
 });
 
 
@@ -64,6 +65,7 @@ Route::group(["prefix" => "song", "middleware" => "jwt.verify"], function () {
     Route::get("/{song}", [SongController::class, "show"]);
     Route::post("", [SongController::class, "create"]);
     Route::put("/{song}", [SongController::class, "update"]);
+    Route::delete("/{song}", [SongController::class, "delete"]);
 });
 
 

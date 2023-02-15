@@ -21,6 +21,11 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+    public function self(Request $request)
+    {
+        return $request->user();
+    }
+
     public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->json()->all() , [
@@ -40,9 +45,7 @@ class UserController extends Controller
             'password' => Hash::make($request->json()->get('password')),
         ]);
 
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('user','token'),201);
+        return response()->json(['message' => 'You are successfully registered.'],201);
     }
 
     public function login(Request $request): JsonResponse

@@ -32,7 +32,7 @@ class AlbumController extends Controller
         $albumList = Album::select("*")
             ->where("status", 1)
             ->orderBy("created_at", "desc")
-            ->paginate(5);
+            ->paginate(3);
 
         return response()->json($albumList);
     }
@@ -80,7 +80,7 @@ class AlbumController extends Controller
 
         Album::where('id', $album->id)->update(array('cover_image_url' => $request->json()->get("cover_image_url"), 'status' => 1));
 
-        return response()->json(['message' => 'Image added Successfully', 'model' => Album::find($album->id)], 201);
+        return response()->json(['message' => 'Created Successfully', 'model' => Album::find($album->id)], 201);
     }
 
 
@@ -94,14 +94,18 @@ class AlbumController extends Controller
 
         if ($valid->fails()) return response()->json(['message' => Arr::first(Arr::flatten($valid->messages()->get('*')))], 400);
 
+        try {
+            $album->update([
+                "title" => $request->json()->get("title"),
+                "description" => $request->json()->get("description"),
+                "release_date" => $request->json()->get("release_date"),
+                "cover_image_url" => $request->json()->get("release_date")
+            ]);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return response()->json(['message' => $ex->getMessage()], 501);
+        }
 
-        $album = $album->update([
-            "title" => $request->json()->get("title"),
-            "description" => $request->json()->get("description"),
-            "release_date" => $request->json()->get("release_date")
-        ]);
-
-        return response()->json(['message' => 'Updated Successfully', 'model' => $album], 201);
+        return response()->json(['message' => 'Updated Successfully', 'model' => Album::find($album->id)], 201);
     }
 
     public function destroy(Album $album): JsonResponse
@@ -115,7 +119,7 @@ class AlbumController extends Controller
                 'message' => 'Album and all associated songs have been deleted'
             ]);
         } catch (Exception $e) {
-            return response()->json($e->getMessage(),501);
+            return response()->json($e->getMessage(), 501);
         }
     }
 

@@ -13,6 +13,6 @@ class Genre extends Model
     use HasFactory;
     protected $fillable = ["type"];
     public function songs(){
-        return $this->belongsToMany(Song::class);
+        return $this->hasMany(Song::class);
     }
 }
