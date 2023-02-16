@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 // ==== Auth service
 
 Route::group(["prefix" => "auth"], function () {
-    Route::post("/register", [UserController::class, "register"]);
-    Route::post("/login", [UserController::class, "login"]);
-    Route::get("/self", [UserController::class, "self"])->middleware('auth:api');;
+    Route::post("/register", [AuthController::class, "register"]);
+    Route::post("/login", [AuthController::class, "login"]);
+    Route::get("/self", [AuthController::class, "self"])->middleware('auth:api');;
 });
 
 
@@ -31,6 +31,7 @@ Route::group(["prefix" => "auth"], function () {
 
 Route::group(["prefix" => "user"], function () {
     Route::get("", [UserController::class, "all"]);
+    Route::get("/{user}", [UserController::class, "show"]);
 });
 
 
