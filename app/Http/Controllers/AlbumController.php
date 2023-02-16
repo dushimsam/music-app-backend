@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 //use Illuminate\Support\Facades\Input;
 
+
 class AlbumController extends Controller
 {
 
@@ -44,7 +45,7 @@ class AlbumController extends Controller
 
     public function songs(Album $album): JsonResponse
     {
-        $songs = Song::where('album_id', $album->id)->with('genre')->paginate(10);
+        $songs = Song::where('album_id', $album->id)->with('genre')->paginate(6);
         return response()->json($songs);
     }
 

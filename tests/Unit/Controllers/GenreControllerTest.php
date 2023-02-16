@@ -2,44 +2,43 @@
 
 namespace Tests\Unit\Controllers;
 
-
+use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\Album;
 
-class AlbumControllerTest extends TestCase
+class GenreControllerTest extends TestCase
 {
-    public function testAllAlbums()
+    public function testAllGenre()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('/api/album');
+        $response = $this->actingAs($user)->get('/api/genre');
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
 
-    public function testAllAlbumsPaginated()
+    public function testAllGenrePaginated()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('/api/album/paginated');
+        $response = $this->actingAs($user)->get('/api/genre/paginated');
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
 
-    public function testGetAlbumById()
+    public function testGetGenreById()
     {
         $user = User::factory()->create();
-        $album = Album::factory()->create();
-        $response = $this->actingAs($user)->get('/api/album/'.$album->id);
+        $genre = Genre::factory()->create();
+        $response = $this->actingAs($user)->get('/api/genre/'.$genre->id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
 
-    public function testGetAlbumSongs()
+    public function testGetGenreSongs()
     {
         $user = User::factory()->create();
-        $album = Album::factory()->create();
-        $response = $this->actingAs($user)->get('/api/album/'.$album->id.'/songs');
+        $genre = Genre::factory()->create();
+        $response = $this->actingAs($user)->get('/api/genre/'.$genre->id.'/songs');
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
@@ -47,17 +46,17 @@ class AlbumControllerTest extends TestCase
     public function testCreateAlbum()
     {
         $user = User::factory()->create();
-        $album = Album::factory()->make();
-        $response = $this->actingAs($user)->post('/api/album', $album->toArray());
+        $genre = Genre::factory()->make();
+        $response = $this->actingAs($user)->post('/api/genre', $genre->toArray());
         $this->assertNotEmpty($response->getContent());
     }
 
-    public function testUpdateAlbum()
+    public function testUpdateGenre()
     {
         $user = User::factory()->create();
-        $album = Album::factory()->create();
-        $updatedAlbum = Album::factory()->make();
-        $response = $this->actingAs($user)->put('/api/album/'.$album->id, $updatedAlbum->toArray());
+        $genre = Genre::factory()->create();
+        $updatedGenre = Genre::factory()->make();
+        $response = $this->actingAs($user)->put('/api/genre/'.$genre->id, $updatedGenre->toArray());
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
@@ -65,8 +64,8 @@ class AlbumControllerTest extends TestCase
     public function testDeleteAlbum()
     {
         $user = User::factory()->create();
-        $album = Album::factory()->create();
-        $response = $this->actingAs($user)->delete('/api/album/'.$album->id);
+        $genre = Genre::factory()->create();
+        $response = $this->actingAs($user)->delete('/api/genre/'.$genre->id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }

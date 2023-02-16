@@ -12,7 +12,7 @@ class AlbumFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->name, // provide a default value
+            'title' => $this->faker->unique()->text, // provide a default value
             'description' => $this->faker->text,
             'release_date' => $this->faker->date,
         ];
