@@ -12,7 +12,7 @@ class AuthControllerTest extends TestCase
     use  WithFaker;
 
     /** @test */
-    public function it_should_return_authenticated_user()
+    public function itShouldReturnAuthenticatedUser()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get('/api/auth/self');
@@ -21,7 +21,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_register_user()
+    public function shouldRegisterUser()
     {
         $data = [
             'full_name' => 'Samuel Dushimimana',
@@ -35,7 +35,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_not_register_user_with_invalid_data()
+    public function shouldNotRegisterUserWithInvalidData()
     {
         $data = [
             'full_name' => '',
@@ -51,7 +51,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_login_user_with_email()
+    public function shouldLoginUserWithEmail()
     {
 
         $password = $this->faker->password();
@@ -68,7 +68,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_login_user_with_username()
+    public function itShouldLoginUserWithUsername()
     {
         $password = $this->faker->password();
         $user = User::factory()->create([
@@ -84,7 +84,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_not_login_user_with_invalid_credentials()
+    public function itShouldNotLoginUserWithInvalidCredentials()
     {
         $response = $this->post('/api/auth/login', [
             'login' => 'ivn@example.com',
