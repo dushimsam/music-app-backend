@@ -13,8 +13,8 @@ RUN docker-php-ext-install pdo_mysql
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
+
 # Expose port 8000 for web traffic
 EXPOSE 8000
 
-# Start the server
-CMD php artisan serve
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 
 /**
@@ -137,9 +138,13 @@ class AlbumController extends Controller
     {
         // Validate request parameters
         $valid = Validator::make($request->json()->all(), [
-            "title" => "required|string|min:2|max:100|unique:albums",
+            "title" => [
+                'required',
+                Rule::unique('albums')->ignore($album->id)
+            ],
             "description" => "required|string|min:3|max:200",
-            "release_date" => "required|date"
+            "release_date" => "required|date",
+            "cover_image_url" => "required|string",
         ]);
 
         // Return error if validation fails
@@ -147,12 +152,7 @@ class AlbumController extends Controller
 
         try {
             // Update the genre with the request parameters
-            $album->update([
-                "title" => $request->json()->get("title"),
-                "description" => $request->json()->get("description"),
-                "release_date" => $request->json()->get("release_date"),
-                "cover_image_url" => $request->json()->get("release_date")
-            ]);
+            Album::where('id', $album->id)->update(array('release_date' => $request->json()->get('release_date'),'description' => $request->json()->get('description'),'title' => $request->json()->get("title"),'cover_image_url' => $request->json()->get("cover_image_url")));
         } catch (\Illuminate\Database\QueryException $ex) {
             // If an exception is thrown, return an error response
             return response()->json(['message' => $ex->getMessage()], 501);

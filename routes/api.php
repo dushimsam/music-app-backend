@@ -45,9 +45,9 @@ Route::group(["prefix" => "album", "middleware" => "jwt.verify"], function () {
     Route::get("/{album}", [AlbumController::class, "show"]);
     Route::get("/{album}/songs", [AlbumController::class, "songs"]);
     Route::post("", [AlbumController::class, "create"]);
+    Route::put("/{album}/upload", [AlbumController::class, "uploadImage"]);
     Route::put("/{album}", [AlbumController::class, "update"]);
     Route::delete("/{album}", [AlbumController::class, "destroy"]);
-    Route::put("/{album}/upload", [AlbumController::class, "uploadImage"]);
     Route::any("/{params:.*}",BadRequestController::class);
 });
 
