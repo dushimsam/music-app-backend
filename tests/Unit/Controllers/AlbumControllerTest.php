@@ -13,6 +13,10 @@ class AlbumControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllAlbums()
     {
         $user = User::factory()->create();
@@ -21,6 +25,10 @@ class AlbumControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllAlbumsPaginated()
     {
         $user = User::factory()->create();
@@ -29,6 +37,10 @@ class AlbumControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testGetAlbumById()
     {
         $user = User::factory()->create();
@@ -38,6 +50,10 @@ class AlbumControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testGetAlbumSongs()
     {
         $user = User::factory()->create();
@@ -47,6 +63,10 @@ class AlbumControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testCreateAlbum()
     {
         $user = User::factory()->create();
@@ -55,6 +75,10 @@ class AlbumControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testUpdateAlbum()
     {
         $user = User::factory()->create();
@@ -65,6 +89,10 @@ class AlbumControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testDeleteAlbum()
     {
         $user = User::factory()->create();

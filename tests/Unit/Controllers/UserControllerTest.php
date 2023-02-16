@@ -11,6 +11,10 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllUsers()
     {
         $user = User::factory()->create();
@@ -19,6 +23,10 @@ class UserControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testGetUserById()
     {
         $user = User::factory()->create();

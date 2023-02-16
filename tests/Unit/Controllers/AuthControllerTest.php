@@ -12,7 +12,10 @@ class AuthControllerTest extends TestCase
 {
     use  WithFaker, RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function shouldReturnAuthenticatedUser()
     {
         $user = User::factory()->create();
@@ -21,7 +24,10 @@ class AuthControllerTest extends TestCase
         $this->assertEquals($user->toArray(), json_decode($response->getContent(), true));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function shouldRegisterUser()
     {
         $data = [
@@ -35,7 +41,10 @@ class AuthControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function shouldNotRegisterUserWithInvalidData()
     {
         $data = [
@@ -51,7 +60,10 @@ class AuthControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function shouldLoginUserWithEmail()
     {
 
@@ -68,7 +80,10 @@ class AuthControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function shouldLoginUserWithUsername()
     {
         $password = $this->faker->password();
@@ -84,7 +99,10 @@ class AuthControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function shouldNotLoginUserWithInvalidCredentials()
     {
         $response = $this->post('/api/auth/login', [

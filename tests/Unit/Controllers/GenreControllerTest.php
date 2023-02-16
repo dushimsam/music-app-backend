@@ -12,6 +12,10 @@ class GenreControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllGenre()
     {
         $user = User::factory()->create();
@@ -20,6 +24,10 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllGenrePaginated()
     {
         $user = User::factory()->create();
@@ -28,6 +36,10 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testGetGenreById()
     {
         $user = User::factory()->create();
@@ -37,6 +49,10 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testGetGenreSongs()
     {
         $user = User::factory()->create();
@@ -46,6 +62,10 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testCreateGenre()
     {
         $user = User::factory()->create();
@@ -54,6 +74,10 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testUpdateGenre()
     {
         $user = User::factory()->create();
@@ -64,7 +88,11 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
-    public function testDeleteAlbum()
+    /**
+     * @test
+     * @return void
+     */
+    public function testDeleteGenre()
     {
         $user = User::factory()->create();
         $genre = Genre::factory()->create();

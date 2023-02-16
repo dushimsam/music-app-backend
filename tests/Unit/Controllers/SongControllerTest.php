@@ -13,6 +13,10 @@ class SongControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllSong()
     {
         $user = User::factory()->create();
@@ -21,6 +25,10 @@ class SongControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testAllSongPaginated()
     {
         $user = User::factory()->create();
@@ -29,6 +37,10 @@ class SongControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testGetSongById()
     {
         $user = User::factory()->create();
@@ -39,6 +51,10 @@ class SongControllerTest extends TestCase
     }
 
 
+    /**
+     * @test
+     * @return void
+     */
     public function testCreateSong()
     {
         $user = User::factory()->create();
@@ -47,6 +63,10 @@ class SongControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testUpdateSong()
     {
         $user = User::factory()->create();
@@ -57,6 +77,10 @@ class SongControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    /**
+     * @test
+     * @return void
+     */
     public function testDeleteSong()
     {
         $user = User::factory()->create();
