@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controllers;
 
-use App\Models\Genre;
 use App\Models\Song;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
