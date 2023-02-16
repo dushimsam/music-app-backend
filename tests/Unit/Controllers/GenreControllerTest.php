@@ -4,11 +4,14 @@ namespace Tests\Unit\Controllers;
 
 use App\Models\Genre;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class GenreControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testAllGenre()
     {
         $user = User::factory()->create();

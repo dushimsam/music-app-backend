@@ -3,6 +3,7 @@
 namespace Tests\Unit\Controllers;
 
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 use App\Models\User;
@@ -10,6 +11,8 @@ use App\Models\Album;
 
 class AlbumControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testAllAlbums()
     {
         $user = User::factory()->create();

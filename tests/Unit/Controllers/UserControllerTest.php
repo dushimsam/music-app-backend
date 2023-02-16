@@ -3,11 +3,14 @@
 namespace Tests\Unit\Controllers;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testAllUsers()
     {
         $user = User::factory()->create();

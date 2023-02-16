@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BadRequestController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
@@ -23,7 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(["prefix" => "auth"], function () {
     Route::post("/register", [AuthController::class, "register"]);
     Route::post("/login", [AuthController::class, "login"]);
-    Route::get("/self", [AuthController::class, "self"])->middleware('auth:api');;
+    Route::get("/self", [AuthController::class, "self"])->middleware('auth:api');
+    Route::any("/{params:.*}",BadRequestController::class);
 });
 
 
@@ -32,6 +34,7 @@ Route::group(["prefix" => "auth"], function () {
 Route::group(["prefix" => "user"], function () {
     Route::get("", [UserController::class, "all"]);
     Route::get("/{user}", [UserController::class, "show"]);
+    Route::any("/{params:.*}",BadRequestController::class);
 });
 
 
@@ -45,6 +48,7 @@ Route::group(["prefix" => "album", "middleware" => "jwt.verify"], function () {
     Route::put("/{album}", [AlbumController::class, "update"]);
     Route::delete("/{album}", [AlbumController::class, "destroy"]);
     Route::put("/{album}/upload", [AlbumController::class, "uploadImage"]);
+    Route::any("/{params:.*}",BadRequestController::class);
 });
 
 
@@ -57,6 +61,7 @@ Route::group(["prefix" => "genre", "middleware" => "jwt.verify"], function () {
     Route::post("", [GenreController::class, "create"]);
     Route::put("/{genre}", [GenreController::class, "update"]);
     Route::delete("/{genre}",[GenreController::class, "destroy"]);
+    Route::any("/{params:.*}",BadRequestController::class);
 });
 
 // ==== Songs Service
@@ -67,6 +72,7 @@ Route::group(["prefix" => "song", "middleware" => "jwt.verify"], function () {
     Route::post("", [SongController::class, "create"]);
     Route::put("/{song}", [SongController::class, "update"]);
     Route::delete("/{song}", [SongController::class, "delete"]);
+    Route::any("/{params:.*}",BadRequestController::class);
 });
 
 

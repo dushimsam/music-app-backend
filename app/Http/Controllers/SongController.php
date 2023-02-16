@@ -11,30 +11,50 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
-
+/**
+ * @class SongController
+ * @brief Controller for Song model
+ */
 class SongController extends Controller
 {
-    // Return all songs in descending order of creation time
+    /**
+     * Get list of Songs
+     * @return JsonResponse
+     */
     public function all(): JsonResponse
     {
+        // Return all songs in descending order of creation time
         $albumList = Song::orderBy('created_at', 'desc')->get();
         return response()->json($albumList);
     }
 
-    // Return paginated songs with their associated album and genre in descending order of creation time
+    /**
+     * Get list of paginated Songs
+     *
+     * @return JsonResponse
+     */
     public function allPaginated(): JsonResponse
     {
+        // Return paginated songs with their associated album and genre in descending order of creation time
         $songs = Song::with('album', 'genre')->orderBy("created_at", "desc")->paginate(10);;
         return response()->json($songs);
     }
 
-    // Return a single song
+    /**
+     * Get A single Song
+     * @param Album $song
+     * @return JsonResponse
+     */
     public function show(Song $song): JsonResponse
     {
         return response()->json($song);
     }
 
-    // Create a new song
+    /**
+     * Create a new Song
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function create(Request $request): JsonResponse
     {
         // Validate request parameters
@@ -60,7 +80,7 @@ class SongController extends Controller
                 return response()->json(['message' => 'Song already exists'], 400);
             }
 
-            // Create new song query
+            // Create new song
             $song = Song::query()->create([
                 "title" => $request->json()->get("title"),
                 "length" => $request->json()->get("length"),
@@ -82,7 +102,12 @@ class SongController extends Controller
         return response()->json(['message' => 'Song created successfully', 'model' => $song], 201);
     }
 
-    // Update an existing song
+    /**
+     * Update a given Song's data
+     * @param Request $request
+     * @param Song $song
+     * @return JsonResponse
+     */
     public function update(Request $request, Song $song): JsonResponse
     {
         // Validate request parameters
@@ -123,7 +148,11 @@ class SongController extends Controller
         return response()->json(['message' => 'Updated successfully', 'model' => $song], 200);
     }
 
-    // Delete an existing song
+    /**
+     * Delete a given Song
+     * @param Song $song
+     * @return JsonResponse
+     */
     public function delete(Song $song): JsonResponse
     {
         try {

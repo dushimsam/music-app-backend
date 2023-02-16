@@ -5,11 +5,14 @@ namespace Tests\Unit\Controllers;
 use App\Models\Genre;
 use App\Models\Song;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class SongControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testAllSong()
     {
         $user = User::factory()->create();
@@ -30,7 +33,7 @@ class SongControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $song = Song::factory()->create();
-        $response = $this->actingAs($user)->get('/api/song/'.$song->id);
+        $response = $this->actingAs($user)->get('/api/song/' . $song->id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
@@ -49,7 +52,7 @@ class SongControllerTest extends TestCase
         $user = User::factory()->create();
         $song = Song::factory()->create();
         $updatedSong = Song::factory()->make();
-        $response = $this->actingAs($user)->put('/api/song/'.$song->id, $updatedSong->toArray());
+        $response = $this->actingAs($user)->put('/api/song/' . $song->id, $updatedSong->toArray());
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }
@@ -58,7 +61,7 @@ class SongControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $song = Song::factory()->create();
-        $response = $this->actingAs($user)->delete('/api/song/'.$song->id);
+        $response = $this->actingAs($user)->delete('/api/song/' . $song->id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getContent());
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Unit\Controllers;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -9,10 +10,10 @@ use App\Models\User;
 
 class AuthControllerTest extends TestCase
 {
-    use  WithFaker;
+    use  WithFaker, RefreshDatabase;
 
     /** @test */
-    public function itShouldReturnAuthenticatedUser()
+    public function shouldReturnAuthenticatedUser()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get('/api/auth/self');
@@ -68,7 +69,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function itShouldLoginUserWithUsername()
+    public function shouldLoginUserWithUsername()
     {
         $password = $this->faker->password();
         $user = User::factory()->create([
@@ -84,7 +85,7 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function itShouldNotLoginUserWithInvalidCredentials()
+    public function shouldNotLoginUserWithInvalidCredentials()
     {
         $response = $this->post('/api/auth/login', [
             'login' => 'ivn@example.com',
