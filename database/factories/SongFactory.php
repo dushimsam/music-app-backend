@@ -11,7 +11,7 @@ class SongFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->unique(),
+            'title' => $this->faker->unique()->title(),
             'album_id' => $this->faker->randomNumber(),
             'genre_id' => $this->faker->randomNumber(),
             'length' => $this->faker->randomNumber(),

@@ -43,7 +43,7 @@ class GenreControllerTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
-    public function testCreateAlbum()
+    public function testCreateGenre()
     {
         $user = User::factory()->create();
         $genre = Genre::factory()->make();
