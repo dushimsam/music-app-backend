@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+
 class AuthController extends Controller
 {
     public function self(Request $request)
@@ -22,13 +23,13 @@ class AuthController extends Controller
             'full_name' => 'required|string|max:255|min:3',
             'username' => 'required|string|max:255|min:3|unique:users',
             'email' => 'required|string|email|max:255|unique:users|min:8',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6|max:20'
         ]);
 
         if($validator->fails())
             return response()->json($validator->errors(), 400);
 
-        $user = User::query()->create([
+        User::query()->create([
             'full_name' => $request->json()->get('full_name'),
             'username' => $request->json()->get('username'),
             'email' => $request->json()->get('email'),
@@ -41,7 +42,7 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $valid = Validator::make($request->json()->all(),[
-            "login"=> ["string","string"],
+            "login"=> ["required","string"],
             "password" => ["required","string"]
         ]);
         $input = $request->all();
